@@ -20,8 +20,7 @@ RUN dpkg --add-architecture i386 && \
 
     # Installs Android SDK
 RUN curl -sL ${ANDROID_SDK_URL} | tar xz -C /opt && \
-    echo "y" | android update sdk -u -a -t
-platform-tools,${ANDROID_APIS},build-tools-${ANDROID_BUILD_TOOLS_VERSION} && \
+    echo "y" | android update sdk -u -a -t platform-tools,${ANDROID_APIS},build-tools-${ANDROID_BUILD_TOOLS_VERSION} && \
     echo "y" | android update sdk -u -a -t extra-android-support && \
     echo "y" | android update sdk -u -a -t sys-img-armeabi-v7a-${ANDROID_APIS} && \
     echo "y" | android update sdk -u -a -t extra-android-m2repository && \
@@ -37,8 +36,7 @@ platform-tools,${ANDROID_APIS},build-tools-${ANDROID_BUILD_TOOLS_VERSION} && \
 # Install a basic SSH server
 RUN apt-get update
 RUN apt-get install -y openssh-server
-RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g'
-/etc/pam.d/sshd
+RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pam_loginuid.so|g' /etc/pam.d/sshd
 RUN mkdir -p /var/run/sshd
 
 # Install packages needed for the build
